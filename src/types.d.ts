@@ -5,8 +5,12 @@ export interface IQuoteForm {
 }
 
 export interface IQuote {
-  "id": string;
-  "author": string;
-  "category": string;
-  "quote": string;
+  id: string;
+  author: string;
+  category: string;
+  quote: string;
+}
+
+export interface IQuoteAPI {
+  [id: string]: IQuoteForm;
 }

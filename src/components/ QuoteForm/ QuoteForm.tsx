@@ -1,13 +1,16 @@
 import { Button, Form } from 'react-bootstrap';
 import * as React from 'react';
-import { IQuoteForm } from '../../types';
+import {  IQuoteForm } from '../../types';
+import axiosApi from '../../axiosApi.ts';
+import { useCallback, useEffect } from 'react';
 
 interface Props {
   isEdit?: boolean;
+  id?: string;
   onSubmitFunction: (quote: IQuoteForm) => void;
 }
 
-const quotations = [
+const quotationsCategory = [
   {title: 'Star Wars', id: 'star-wars'},
   {title: 'Motivational', id: 'motivational'},
   {title: "Famous people", id: 'famous-people'},
@@ -15,12 +18,22 @@ const quotations = [
   {title: "Meaning of life", id: 'meaning-of-life'},
 ];
 
-const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction}) => {
+const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
   const [form, setForm] = React.useState({
     author: "",
     quote: "",
     category: "",
   });
+
+  const IDRequest = useCallback( async () => {
+    if(!isEdit) return;
+    const response = await axiosApi<IQuoteForm>(`quotes/${id}.json`);
+    setForm(response.data);
+  }, [isEdit, id]);
+
+  useEffect(() => {
+    void IDRequest();
+  }, [IDRequest]);
 
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,9 +59,10 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction}) => {
       <Form onSubmit={onSubmitForm}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
           <Form.Label>Category</Form.Label>
-          <Form.Select name="category" onChange={onChange}>
-            {quotations.map((item) => (
-              <option value={item.id}>{item.title}</option>
+          <Form.Select name="category" required value={form.category} onChange={onChange}>
+             <option disabled defaultValue></option>
+            {quotationsCategory.map((item) => (
+              <option key={item.id} value={item.id}>{item.title}</option>
             ))}
           </Form.Select>
         </Form.Group>

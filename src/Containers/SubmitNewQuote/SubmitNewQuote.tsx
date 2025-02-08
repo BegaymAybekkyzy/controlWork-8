@@ -13,14 +13,12 @@ const SubmitNewQuote = () => {
     try {
       setLoading(true);
       await axiosApi.post("quotes.json", quote);
-      console.log(quote);
     } catch (e) {
       alert(`Error: ${e}`);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <Container>
