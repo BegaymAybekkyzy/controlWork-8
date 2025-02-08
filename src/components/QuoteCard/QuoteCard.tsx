@@ -19,7 +19,7 @@ const QuoteCard: React.FC<Props> = ({quote, quoteDeletion}) => {
             Author {quote.author}
           </footer>
         </blockquote>
-        <NavLink className="btn btn-primary me-2" to={`quotes/${quote.id}/edit`}>Edit</NavLink>
+        <NavLink className="btn btn-primary me-2" to={`/all/${quote.id}/edit`}>Edit</NavLink>
         <Button variant="danger" onClick={() =>quoteDeletion(quote.id)}>Delete</Button>
       </Card.Body>
     </Card>

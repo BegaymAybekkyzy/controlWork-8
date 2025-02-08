@@ -1,8 +1,10 @@
 import { Container } from 'react-bootstrap';
 import Sidebar from '../../components/Sidebar/Sidebar.tsx';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useOutlet } from 'react-router-dom';
 
 const Quotes = () => {
+
+  console.log();
   return (
     <Container>
       <div className="row">
@@ -12,7 +14,7 @@ const Quotes = () => {
         </div>
 
         <div className="col-8">
-        <Outlet/>
+          {useOutlet() ? <Outlet /> : <h3 className="text-center">Select a category of quote</h3>}
         </div>
       </div>
     </Container>

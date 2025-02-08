@@ -2,8 +2,9 @@ import { Button, Form } from 'react-bootstrap';
 import * as React from 'react';
 import {  IQuoteForm } from '../../types';
 import axiosApi from '../../axiosApi.ts';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { QUOTATION_CATEGORY } from '../../globalConstant.ts';
+import Loader from '../UI/Loader/Loader.tsx';
 
 interface Props {
   isEdit?: boolean;
@@ -17,11 +18,20 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
     quote: "",
     category: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const IDRequest = useCallback( async () => {
     if(!isEdit) return;
-    const response = await axiosApi<IQuoteForm>(`quotes/${id}.json`);
-    setForm(response.data);
+    try {
+      setLoading(true);
+      const response = await axiosApi<IQuoteForm>(`quotes/${id}.json`);
+      setForm(response.data);
+    } catch (e) {
+      alert(e);
+    } finally {
+      setLoading(false);
+    }
+
   }, [isEdit, id]);
 
   useEffect(() => {
@@ -45,6 +55,8 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
     const { value, name } = e.target;
     setForm({ ...form, [name]: value});
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>

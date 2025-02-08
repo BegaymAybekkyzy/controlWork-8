@@ -20,7 +20,7 @@ const EditQuoteForm = () => {
       alert(e);
     } finally {
       setLoading(false);
-      navigate('/');
+      navigate('/quotes/all');
     }
   };
 

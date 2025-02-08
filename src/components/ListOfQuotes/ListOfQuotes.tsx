@@ -59,9 +59,11 @@ const ListOfQuotes = () => {
   if (!loading) {
     if (quotationsList.length > 0) {
       content = (
-        quotationsList.map((quote) => (
-            <QuoteCard key={quote.id} quote={quote} quoteDeletion={quoteDeletion}/>)
-          )
+        <>
+          <h1></h1>
+          {quotationsList.map((quote) => (
+            <QuoteCard key={quote.id} quote={quote} quoteDeletion={quoteDeletion}/>))}
+        </>
       );
     } else {
       content = <h1>The list of citations is empty</h1>;

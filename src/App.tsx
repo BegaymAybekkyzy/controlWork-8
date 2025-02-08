@@ -13,13 +13,13 @@ const App = () => {
       </header>
 
       <Routes>
+        <Route path="/" element={<Quotes/>}/>
         <Route path="/quotes/" element={<Quotes/>}>
           <Route path=":category" element={<ListOfQuotes/>}/>
           <Route path="all" element={<ListOfQuotes/>}/>
-          <Route path="all" element={<Quotes/>}/>
         </Route>
         <Route path="/add-quote" element={<SubmitNewQuote/>}/>
-        <Route path="/quotes/:id/edit" element={<EditQuoteForm/>}/>
+        <Route path="/all/:id/edit" element={<EditQuoteForm/>}/>
         <Route path="*" element={<h1 className="text-center">Page not found</h1>}/>
       </Routes>
 

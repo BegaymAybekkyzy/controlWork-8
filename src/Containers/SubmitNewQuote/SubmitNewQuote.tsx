@@ -22,9 +22,12 @@ const SubmitNewQuote = () => {
 
   return (
     <Container>
-      {loading ? <Loader/>
-      :<QuoteForm onSubmitFunction={addNewQuote}></QuoteForm>
-      }
+      <div className="w-75 mx-auto mt-5">
+        {loading ? <Loader/>
+          :<QuoteForm onSubmitFunction={addNewQuote}></QuoteForm>
+        }
+      </div>
+
     </Container>
   );
 };
