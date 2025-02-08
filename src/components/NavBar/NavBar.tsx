@@ -1,14 +1,20 @@
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <Navbar bg="primary" data-bs-theme="dark" className="mb-4">
       <Container>
-        <NavLink className="navbar-brand fs-2" to="/quotes/all">Quotes Central</NavLink>
+        <NavLink className="navbar-brand fs-2" to="/quotes/all">
+          Quotes Central
+        </NavLink>
         <Nav className="ms-auto">
-          <NavLink className="nav-link" to="/quotes/all">Quotes</NavLink>
-          <NavLink className="nav-link" to="/add-quote">Submit new quote</NavLink>
+          <NavLink className="nav-link" to="/quotes/all">
+            Quotes
+          </NavLink>
+          <NavLink className="nav-link" to="/add-quote">
+            Submit new quote
+          </NavLink>
         </Nav>
       </Container>
     </Navbar>

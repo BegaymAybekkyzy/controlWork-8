@@ -1,10 +1,10 @@
-import { Button, Form } from 'react-bootstrap';
-import * as React from 'react';
-import {  IQuoteForm } from '../../types';
-import axiosApi from '../../axiosApi.ts';
-import { useCallback, useEffect, useState } from 'react';
-import { QUOTATION_CATEGORY } from '../../globalConstant.ts';
-import Loader from '../UI/Loader/Loader.tsx';
+import { Button, Form } from "react-bootstrap";
+import * as React from "react";
+import { IQuoteForm } from "../../types";
+import axiosApi from "../../axiosApi.ts";
+import { useCallback, useEffect, useState } from "react";
+import { QUOTATION_CATEGORY } from "../../globalConstant.ts";
+import Loader from "../UI/Loader/Loader.tsx";
 
 interface Props {
   isEdit?: boolean;
@@ -12,7 +12,11 @@ interface Props {
   onSubmitFunction: (quote: IQuoteForm) => void;
 }
 
-const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
+const QuoteForm: React.FC<Props> = ({
+  isEdit = false,
+  onSubmitFunction,
+  id,
+}) => {
   const [form, setForm] = React.useState({
     author: "",
     quote: "",
@@ -20,8 +24,8 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
   });
   const [loading, setLoading] = useState(false);
 
-  const IDRequest = useCallback( async () => {
-    if(!isEdit) return;
+  const IDRequest = useCallback(async () => {
+    if (!isEdit) return;
     try {
       setLoading(true);
       const response = await axiosApi<IQuoteForm>(`quotes/${id}.json`);
@@ -31,7 +35,6 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
     } finally {
       setLoading(false);
     }
-
   }, [isEdit, id]);
 
   useEffect(() => {
@@ -50,24 +53,37 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
   };
 
   const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { value, name } = e.target;
-    setForm({ ...form, [name]: value});
+    setForm({ ...form, [name]: value });
   };
 
   if (loading) return <Loader />;
 
   return (
     <>
-      <h1 className="text-center">{isEdit ? "Edit a quote": "Submit new quote"}</h1>
+      <h1 className="text-center">
+        {isEdit ? "Edit a quote" : "Submit new quote"}
+      </h1>
       <Form onSubmit={onSubmitForm}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
           <Form.Label>Category</Form.Label>
-          <Form.Select name="category" required value={form.category} onChange={onChange}>
-             <option value="" disabled>Select a category</option>
+          <Form.Select
+            name="category"
+            required
+            value={form.category}
+            onChange={onChange}
+          >
+            <option value="" disabled>
+              Select a category
+            </option>
             {QUOTATION_CATEGORY.map((item) => (
-              <option key={item.id} value={item.id}>{item.title}</option>
+              <option key={item.id} value={item.id}>
+                {item.title}
+              </option>
             ))}
           </Form.Select>
         </Form.Group>
@@ -79,7 +95,8 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
             onChange={onChange}
             value={form.author}
             required
-            name="author"/>
+            name="author"
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -90,12 +107,14 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
             value={form.quote}
             required
             name="quote"
-            rows={3} />
+            rows={3}
+          />
         </Form.Group>
-        <Button variant="primary" type="submit">Save</Button>
+        <Button variant="primary" type="submit">
+          Save
+        </Button>
       </Form>
     </>
-
   );
 };
 
