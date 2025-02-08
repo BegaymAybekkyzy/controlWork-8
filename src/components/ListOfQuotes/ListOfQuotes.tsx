@@ -1,20 +1,27 @@
-import { Container } from 'react-bootstrap';
-import { useCallback, useEffect, useState } from 'react';
-import axiosApi from '../../axiosApi.ts';
+import React, { useCallback, useEffect, useState } from 'react';
+import QuoteCard from '../QuoteCard/QuoteCard.tsx';
 import { IQuote, IQuoteAPI } from '../../types';
-import * as React from 'react';
-import Loader from '../../components/UI/Loader/Loader.tsx';
-import QuoteCard from '../../components/QuoteCard/QuoteCard.tsx';
+import axiosApi from '../../axiosApi.ts';
+import Loader from '../UI/Loader/Loader.tsx';
+import { useParams } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
-const Home = () => {
+const ListOfQuotes = () => {
   const [quotationsList, setQuotationsList] = useState<IQuote[]>([]);
   const [loading, setLoading] = useState(false);
+  const {category} = useParams();
 
   const retrievingAllQuotes = useCallback( async () => {
     try {
       setLoading(true);
 
-      const response = await axiosApi<IQuoteAPI>("quotes.json");
+      let response: AxiosResponse<IQuoteAPI>;
+      if (!category) {
+        response = await axiosApi<IQuoteAPI>("quotes.json");
+
+      } else {
+        response = await axiosApi<IQuoteAPI>(`quotes.json?orderBy="category"&equalTo="${category}"`);
+      }
       const quotesId = Object.keys(response.data);
       const quotes = quotesId.map(quoteId => {
         return {
@@ -28,7 +35,7 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     void retrievingAllQuotes();
@@ -51,19 +58,21 @@ const Home = () => {
   if (loading) content = <Loader />;
   if (!loading) {
     if (quotationsList.length > 0) {
-      content = (quotationsList.map((quote) => (
-        <QuoteCard key={quote.id} quote={quote} quoteDeletion={quoteDeletion}/>)
-      ));
+      content = (
+        quotationsList.map((quote) => (
+            <QuoteCard key={quote.id} quote={quote} quoteDeletion={quoteDeletion}/>)
+          )
+      );
     } else {
       content = <h1>The list of citations is empty</h1>;
     }
   }
 
   return (
-    <Container>
+    <>
       {content}
-    </Container>
+    </>
   );
 };
 
-export default Home;
+export default ListOfQuotes;

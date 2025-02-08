@@ -3,20 +3,13 @@ import * as React from 'react';
 import {  IQuoteForm } from '../../types';
 import axiosApi from '../../axiosApi.ts';
 import { useCallback, useEffect } from 'react';
+import { QUOTATION_CATEGORY } from '../../globalConstant.ts';
 
 interface Props {
   isEdit?: boolean;
   id?: string;
   onSubmitFunction: (quote: IQuoteForm) => void;
 }
-
-const quotationsCategory = [
-  {title: 'Star Wars', id: 'star-wars'},
-  {title: 'Motivational', id: 'motivational'},
-  {title: "Famous people", id: 'famous-people'},
-  {title: "Humour", id: 'humour'},
-  {title: "Meaning of life", id: 'meaning-of-life'},
-];
 
 const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
   const [form, setForm] = React.useState({
@@ -60,8 +53,8 @@ const QuoteForm: React.FC<Props> = ({isEdit = false, onSubmitFunction, id}) => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
           <Form.Label>Category</Form.Label>
           <Form.Select name="category" required value={form.category} onChange={onChange}>
-             <option disabled defaultValue></option>
-            {quotationsCategory.map((item) => (
+             <option value="" disabled>Select a category</option>
+            {QUOTATION_CATEGORY.map((item) => (
               <option key={item.id} value={item.id}>{item.title}</option>
             ))}
           </Form.Select>
